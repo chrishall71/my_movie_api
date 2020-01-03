@@ -8,6 +8,8 @@ http.createServer((request, response) => {
 		q = url.parse (addr, true),
 		filePath = '';
 
+	
+
 		//checks for the documentation file
 	if (q.pathname.includes('documentation')) {
 		filePath = (__dirname + '/documentation.html');
@@ -15,12 +17,16 @@ http.createServer((request, response) => {
 		filePath = 'index.html';
 	}
 
-	fs.appendFile('log.txt', 'url: ' + '\nTimestamp: ' + new Date() + '\n\n', (err) => {
+	fs.appendFile('log.txt', 'url: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', (err) => {
 		if (err) {
 			console.log(err);
 		} else {
 			console.log("Added to log.");
 		}
+		
+	response.writeHead(200, {'Content-Type': 'text/plain'});
+	response.write (data);
+	response.end('Hello Node!\n');
 		
 	})
 
