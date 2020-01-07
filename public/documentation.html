@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/styles.css">
     <title>My Flix</title>
   </head>
   <body>
@@ -10,6 +11,137 @@
     about different movies, directors, and genres. Users will be able to sign
     up, update their personal information, and create a list of their favorite
     movies.
-    </p>
+	</p>
+	<p>
+		The table below describes each endpoint of this API and how to access it.
+	  </p>
+  
+	  <table>
+		<thead>
+		  <tr>
+			<th>Description</th>
+			<th>URL</th>
+			<th>HTTP method</th>
+			<th>Request body data format</th>
+			<th>Response body data format</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr>
+			<td>Get a list of all movies</td>
+			<td>/movies</td>
+			<td>GET</td>
+			<td>None</td>
+			<td>
+			  JSON object holding data about all movies. Structure:
+			  <p>
+				{ Title: "Casablanca", Description: "World War II-era movie, etc",
+				Genre: {Name: "Drama", Description: "Movie with serious
+				undertones, etc."}, Director: {Name: "Michael Curtiz", Bio:
+				"Hungarian-born American Director, etc.", Birth: "1886", Death:
+				"1962"}, Actors: ["Humphrey Bogart", "Ingrid Bergman"], ImagePath:
+				"casablanca.png", Featured: false}
+			  </p>
+			</td>
+		  </tr>
+		  <tr>
+			<td>Get data about a single movie by title</td>
+			<td>/movies/[title]</td>
+			<td>GET</td>
+			<td>None</td>
+			<td>
+			  JSON object holding data about a single movie. Structure same as
+			  above.
+			</td>
+		  </tr>
+		  <tr>
+			<td>Get data about a movie genre</td>
+			<td>/genre/[name]</td>
+			<td>GET</td>
+			<td>None</td>
+			<td>
+			  JSON object holding data about a movie genre, containing name and
+			  description. Structure:
+			  <p>
+				{Name: "Drama", Description: "Movie with serious undertones,
+				etc."}
+			  </p>
+			</td>
+		  </tr>
+		  <tr>
+			<td>Get data about a director</td>
+			<td>/director/[name]</td>
+			<td>GET</td>
+			<td>None</td>
+			<td>
+			  JSON object holding data about a director. Structure:
+			  <p>
+				{Name: "Michael Curtiz", Bio: "Hungarian-born American Director,
+				etc.", Birth: "1886", Death: "1962"}
+			  </p>
+			</td>
+		  </tr>
+		  <tr>
+			<td>Add a new user to the registry.</td>
+			<td>/users</td>
+			<td>POST</td>
+			<td>
+			  JSON object holding data about the user to add. Structure:
+			  <p>
+				{ username: "John Doe", password: "pw123", email:
+				"john.doe@gmail.com", dateofbirth: "12/20/66"
+			  </p>
+			</td>
+			<td>
+			  JSON object holding data about the user that was add. Structure:
+			  <p>
+				{ id: 7, username: "John Doe", password: "pw123", email:
+				"john.doe@gmail.com", dateofbirth: "12/20/66"
+			  </p>
+			</td>
+		  </tr>
+		  <tr>
+			<td>Update a user's information</td>
+			<td>/users/[username]</td>
+			<td>PUT</td>
+			<td>
+			  JSON object holding data about the user to add. Structure:
+			  <p>
+				{ username: "John Doe", password: "pw123", email:
+				"john.doe@gmail.com", dateofbirth: "12/20/66"
+			  </p>
+			</td>
+			<td>A message indicating the user's information was updated.</td>
+		  </tr>
+		  <tr>
+			<td>Add a movie to the user's favorites list</td>
+			<td>/favorites/[username]/movies/[movieID]</td>
+			<td>POST</td>
+			<td>None</td>
+			<td>
+			  A message indicating the movie title was added to the user's
+			  favorites list.
+			</td>
+		  </tr>
+		  <tr>
+			<td>Delete a movie from the user's favorites list</td>
+			<td>/favorites/[username]/movies/[movieID]</td>
+			<td>DELETE</td>
+			<td>None</td>
+			<td>
+			  A message indicating the movie title was deleted from the user's
+			  favorites list.
+			</td>
+		  </tr>
+		  <tr>
+			<td>Remove a user from the registry.</td>
+			<td>/users/[username]</td>
+			<td>DELETE</td>
+			<td>None</td>
+			<td>A message indicating the user was removed from the registry.</td>
+		  </tr>
+		</tbody>
+	  </table>
+	
   </body>
 </html>

@@ -1,0 +1,21 @@
+/*
+Colors used
+Background color: #e5e5e5;
+Primary Button background color:  #3F3FD4
+Link base color:  #000000
+Link visited color:  #000000
+link active color:  #ffff00
+ */
+
+ table {
+	table-layout: auto;
+	border-spacing: 10px;
+	width: 75%;
+  }
+  
+  table,
+  th,
+  td {
+	border: 1px solid black;
+	border-collapse: collapse;
+  }
