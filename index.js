@@ -13,13 +13,13 @@ const app = express();
 //USER Data base
 let Users = [
 	{
-		id: 1,
+		id: '1',
 		name:"John Doe",
 		username:"jonhdoe81",
 		password:'Pw1234',
 		email:'john@gmail.com',
 		dateofbirth:'october 19, 1971',
-		favorites: [3]
+		favorites: ['3']
 	}
 ];
 
@@ -97,7 +97,7 @@ let Directors = [
 
 let Movies = [
 	{
-		id: 1,
+		id: '1',
 		title: 'Toy Story 4',
 		description: 'Toy Story 4 is a 2019 American computer-animated comedy film produced by Pixar Animation Studios for Walt Disney Pictures. It is the fourth installment in Pixars Toy Story series.',
 		genre: 'animation',
@@ -106,7 +106,7 @@ let Movies = [
 		featured: 'false'
 	},
 	{
-		id: 2,
+		id: '2',
 		title: 'A Beautiful Mind',
 		description: 'A Beautiful Mind: a Biography of John Forbes Nash, Jr., Winner of the Nobel Prize in Economics, 1994',
 		genre: 'drama',
@@ -115,7 +115,7 @@ let Movies = [
 		featured: 'false'	
 	},
 	{
-		id: 3,
+		id: '3',
 		title: 'In the Heart of the Sea',
 		description: "A recounting of a New England whaling ship's sinking by a giant whale in 1820, an experience that later inspired the great novel Moby-Dick.",
 		genre: 'drama',
@@ -124,7 +124,7 @@ let Movies = [
 		featured: 'false'	
 	},
 	{
-		id: 4,
+		id: '4',
 		title: 'Finding Nemo',
 		description: 'After his son is captured in the Great Barrier Reef and taken to Sydney, a timid clownfish sets out on a journey to bring him home.',
 		genre: 'animation',
@@ -133,7 +133,7 @@ let Movies = [
 		featured: 'false'	
 	},
 	{
-		id: 5,
+		id: '5',
 		title: 'Catch Me If You Can',
 		description: "A seasoned FBI agent pursues Frank Abagnale Jr. who, before his 19th birthday, successfully forged millions of dollars' worth of checks while posing as a Pan Am pilot, a doctor, and a legal prosecutor.",
 		genre: 'drama',
@@ -142,7 +142,7 @@ let Movies = [
 		featured: 'false'	
 	},
 	{
-		id: 6,
+		id: '6',
 		title: 'The Shawshank Redemption',
 		description: 'Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',
 		genre: 'drama',
@@ -151,7 +151,7 @@ let Movies = [
 		featured: 'false'	
 	},
 	{
-		id: 7,
+		id: '7',
 		title: 'Fast and Furious',
 		description: "Brian O'Conner, back working for the FBI in Los Angeles, teams up with Dominic Toretto to bring down a heroin importer by infiltrating his operation.",
 		genre: 'action',
@@ -159,7 +159,7 @@ let Movies = [
 		imageUrl: 'https://m.media-amazon.com/images/M/MV5BYjQ1ZTMxNzgtZDcxOC00NWY5LTk3ZjAtYzRhMDhlNDZlOWEzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg',
 		featured: 'false'
 	},
-	{	id: 8,
+	{	id: '8',
 		title: 'Star Trek Beyond',
 		description: "The crew of the USS Enterprise explores the furthest reaches of uncharted space, where they encounter a new ruthless enemy, who puts them, and everything the Federation stands for, to the test.",
 		genre: 'Sci-Fi',
@@ -168,7 +168,7 @@ let Movies = [
 		featured: 'false'
 	},
 	{
-		id: 9,
+		id: '9',
 		title: 'Hobbs & Shaw',
 		description: "Lawman Luke Hobbs (Dwayne Johnson) and outcast Deckard Shaw (Jason Statham) form an unlikely alliance when a cyber-genetically enhanced villain threatens the future of humanity.",
 		genre: 'action',
@@ -177,7 +177,7 @@ let Movies = [
 		featured: 'false'
 	},
 	{
-		id: 10,
+		id: '10',
 		title: 'The Hangover',
 		description: "Three buddies wake up from a bachelor party in Las Vegas, with no memory of the previous night and the bachelor missing. They make their way around the city in order to find their friend before his wedding.",
 		genre: 'comedy',
@@ -300,7 +300,7 @@ app.put('/users/:id', (req, res) => {
 
 // Deletes a user from the list by ID
 app.delete('/users/:id', (req, res) => {
-	let user = Users.find((user) => { return user.id == req.params.id; });
+	let user = Users.find((user) => { return user.id === req.params.id; });
   
 	if (user) {
 	  Users = Users.filter(function(obj) { return obj.id !== req.params.id; });
@@ -311,7 +311,7 @@ app.delete('/users/:id', (req, res) => {
 //--LIST OF FAVORITES--
 
 //Add a favorite Movie to a User
-app.post('/users/:id/:movie_id', (req, res) => {
+app.post('/users/:id/movies/:movie_id', (req, res) => {
 	let user = Users.find((user) => { return user.id === req.params.id; });
 	let movie = Movies.find((movie) => { return movie.id === req.params.movie_id; });
   
@@ -325,6 +325,20 @@ app.post('/users/:id/:movie_id', (req, res) => {
 	}
   });
 
+  // Remove a favorite Movie from a User.
+app.delete('/users/:id/movies/:movie_id', (req, res) => {
+	let user = Users.find((user) => { return user.id === req.params.id; });
+	let movie = Movies.find((movie) => { return movie.id === req.params.movie_id; });
+  
+	if (user && movie) {
+	  user.favorites = user.favorites.filter((movie_id) => { return movie_id !== req.params.movie_id; });
+	  res.status(201).send(user);
+	} else if (!movie) {
+	  res.status(404).send('Movie with id ' + req.params.movie_id + ' was not found.');
+	} else {
+	  res.status(404).send('User with id ' + req.params.id + ' was not found.');
+	}
+  });
 
 
 //Error Handling in Express
