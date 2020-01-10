@@ -35,12 +35,9 @@
 			<td>
 			  JSON object holding data about all movies. Structure:
 			  <p>
-				{ Title: "Casablanca", Description: "World War II-era movie, etc",
-				Genre: {Name: "Drama", Description: "Movie with serious
-				undertones, etc."}, Director: {Name: "Michael Curtiz", Bio:
-				"Hungarian-born American Director, etc.", Birth: "1886", Death:
-				"1962"}, Actors: ["Humphrey Bogart", "Ingrid Bergman"], ImagePath:
-				"casablanca.png", Featured: false}
+				{ id: 1 title: "Toy Story 4",  description: "pixar cartoon etc...", genre: "animation",
+				 director: "Josh Cooley", Death:
+				"1962"}, ImageUrl:"https://upload.wikimedia.org/wikipedia/en/4/4c/Toy_Story_4_poster.jpg",Featured: false}
 			  </p>
 			</td>
 		  </tr>
@@ -56,28 +53,28 @@
 		  </tr>
 		  <tr>
 			<td>Get data about a movie genre</td>
-			<td>/genre/[name]</td>
+			<td>/genres/[name]</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
 			  JSON object holding data about a movie genre, containing name and
 			  description. Structure:
 			  <p>
-				{Name: "Drama", Description: "Movie with serious undertones,
+				{name: "Drama", description: "Movie with serious undertones,
 				etc."}
 			  </p>
 			</td>
 		  </tr>
 		  <tr>
 			<td>Get data about a director</td>
-			<td>/director/[name]</td>
+			<td>/directors/[name]</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
 			  JSON object holding data about a director. Structure:
 			  <p>
-				{Name: "Michael Curtiz", Bio: "Hungarian-born American Director,
-				etc.", Birth: "1886", Death: "1962"}
+				{name: "Michael Curtiz", bio: "Hungarian-born American Director,
+				etc.", birth: "1886", death: "1962"}
 			  </p>
 			</td>
 		  </tr>
@@ -88,27 +85,26 @@
 			<td>
 			  JSON object holding data about the user to add. Structure:
 			  <p>
-				{ username: "John Doe", password: "pw123", email:
-				"john.doe@gmail.com", dateofbirth: "12/20/66"
+				{ id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email:
+				"john@gmail.com", dateofbirth: "12/20/66"}
 			  </p>
 			</td>
 			<td>
 			  JSON object holding data about the user that was add. Structure:
 			  <p>
-				{ id: 7, username: "John Doe", password: "pw123", email:
-				"john.doe@gmail.com", dateofbirth: "12/20/66"
+				{ id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email:
+				"john@gmail.com", dateofbirth: "12/20/66"}
 			  </p>
 			</td>
 		  </tr>
 		  <tr>
 			<td>Update a user's information</td>
-			<td>/users/[username]</td>
+			<td>/users/[id]</td>
 			<td>PUT</td>
 			<td>
 			  JSON object holding data about the user to add. Structure:
 			  <p>
-				{ username: "John Doe", password: "pw123", email:
-				"john.doe@gmail.com", dateofbirth: "12/20/66"
+				id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email: "john@gmail.com", dateofbirth: "12/20/66", favorites: ['3']}
 			  </p>
 			</td>
 			<td>A message indicating the user's information was updated.</td>
@@ -135,7 +131,7 @@
 		  </tr>
 		  <tr>
 			<td>Remove a user from the registry.</td>
-			<td>/users/[username]</td>
+			<td>/users/[id]</td>
 			<td>DELETE</td>
 			<td>None</td>
 			<td>A message indicating the user was removed from the registry.</td>
