@@ -35,15 +35,13 @@
 			<td>
 			  JSON object holding data about all movies. Structure:
 			  <p>
-				{ id: 1 title: "Toy Story 4",  description: "pixar cartoon etc...", genre: "animation",
-				 director: "Josh Cooley", Death:
-				"1962"}, ImageUrl:"https://upload.wikimedia.org/wikipedia/en/4/4c/Toy_Story_4_poster.jpg",Featured: false}
+				{Id:"5e1fa2c51955aa2449c5fdef"},"Title":"Toy Story 4","Description":"Toy Story 4 is a 2019 American computer-animated comedy film produced by Pixar Animation Studios for Walt Disney Pictures. It is the fourth installment in Pixars Toy Story series.","Genre":{"Name":"animation","Discription":"Animation is a method in which pictures are manipulated to appear as moving images."},"Director":{"Name":"Josh Cooley","Bio":"Joshua Cooley (born May 23, 1980) is an American animator, screenwriter, director and voice actor.","Birth":"1980","Death":""},"ImagePath":"toystory_4.jpg","Featured":false}
 			  </p>
 			</td>
 		  </tr>
 		  <tr>
 			<td>Get data about a single movie by title</td>
-			<td>/movies/[title]</td>
+			<td>/movies/:title</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
@@ -53,21 +51,21 @@
 		  </tr>
 		  <tr>
 			<td>Get data about a movie genre</td>
-			<td>/genres/[name]</td>
+			<td>/movies/genres/:name</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
 			  JSON object holding data about a movie genre, containing name and
 			  description. Structure:
 			  <p>
-				{name: "Drama", description: "Movie with serious undertones,
+				{Name: "Drama", Description: "Movie with serious undertones,
 				etc."}
 			  </p>
 			</td>
 		  </tr>
 		  <tr>
 			<td>Get data about a director</td>
-			<td>/directors/[name]</td>
+			<td>/movies/directors/:name</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
@@ -85,33 +83,34 @@
 			<td>
 			  JSON object holding data about the user to add. Structure:
 			  <p>
-				{ id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email:
-				"john@gmail.com", dateofbirth: "12/20/66"}
+				{ id: 1, Name: John Doe, Username: "Johndoe81", Password: "pw123", Email:
+				"john@gmail.com", Birthday: "12/20/66", FavoriteMovies:["5e1fc18a1955aa2449c5fdf8"]}
 			  </p>
 			</td>
 			<td>
 			  JSON object holding data about the user that was add. Structure:
 			  <p>
-				{ id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email:
-				"john@gmail.com", dateofbirth: "12/20/66"}
+				{ id: 1, Name: John Doe, Username: "Johndoe81", Password: "pw123", Email:
+				"john@gmail.com", Birthday: "12/20/66", FavoriteMovies:["5e1fc18a1955aa2449c5fdf8"]}
 			  </p>
 			</td>
 		  </tr>
 		  <tr>
 			<td>Update a user's information</td>
-			<td>/users/[id]</td>
+			<td>/users/:id</td>
 			<td>PUT</td>
 			<td>
 			  JSON object holding data about the user to add. Structure:
 			  <p>
-				id: 1, name: John Doe, username: "Johndoe81", password: "pw123", email: "john@gmail.com", dateofbirth: "12/20/66", favorites: ['3']}
+				{ id: 1, Name: John Doe, Username: "Johndoe81", Password: "pw123", Email:
+				"john@gmail.com", Birthday: "12/20/66", FavoriteMovies:["5e1fc18a1955aa2449c5fdf8"] }
 			  </p>
 			</td>
 			<td>A message indicating the user's information was updated.</td>
 		  </tr>
 		  <tr>
 			<td>Add a movie to the user's favorites list</td>
-			<td>/favorites/[id]/movies/[movie_id]</td>
+			<td>/users/:username/movies/:movieid</td>
 			<td>POST</td>
 			<td>None</td>
 			<td>
@@ -121,7 +120,7 @@
 		  </tr>
 		  <tr>
 			<td>Delete a movie from the user's favorites list</td>
-			<td>/favorites/[id]/movies/[movie_id]</td>
+			<td>/favorites/:id/movies/:movieid</td>
 			<td>DELETE</td>
 			<td>None</td>
 			<td>
@@ -131,7 +130,7 @@
 		  </tr>
 		  <tr>
 			<td>Remove a user from the registry.</td>
-			<td>/users/[id]</td>
+			<td>/users/:id</td>
 			<td>DELETE</td>
 			<td>None</td>
 			<td>A message indicating the user was removed from the registry.</td>
