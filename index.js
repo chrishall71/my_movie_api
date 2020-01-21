@@ -5,15 +5,22 @@ const express = require('express');
 const morgan = require('morgan');
 const uuid = require('uuid');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const Models = require('./models.js');
 
 const app = express();
+const Movies = Models.Movie;
+const Users = Models.User;
+
 
 app.use(morgan('common'));// log all request with Morgan
 app.use(express.static('public')); // retrieves files from public folder
 app.use(bodyParser.json());
 
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
 // USER Data base
-let Users = [
+/* let Users = [
   {
     id: '1',
     name: 'John Doe',
@@ -192,7 +199,7 @@ const Movies = [
     imageUrl: 'https://m.media-amazon.com/images/M/MV5BNGQwZjg5YmYtY2VkNC00NzliLTljYTctNzI5NmU3MjE2ODQzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_UX182_CR0,0,182,268_AL_.jpg',
     featured: 'false',
   },
-];
+]; */
 
 // GET Request
 app.get('/', (req, res) => {
@@ -265,8 +272,71 @@ app.get('/genres/:name', (req, res) => {
 
 // --USERS--
 
+// Get all Users
+app.get('/users', (req, res) => {
+  Users.find()
+    .then((users) => {
+      res.status(201).json(users);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
+});
+
+// Get a user by username
+app.get('/users/:username', (req, res) => {
+  Users.findOne({ Username: req.params.Username })
+    .then((user) => {
+      res.json(user);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send(`Error: ${err}`);
+    });
+});
+
+// Add a USER
+/* We'll expect JSON in this format
+{
+	ID: Integer,
+	// eslint-disable-next-line no-tabs
+	// eslint-disable-next-line no-tabs
+	Username: String,
+	Password: String,
+	Email: String,
+	Birthday: Date
+	FavoriteMovie: []
+} */
+app.post('/users', function (req, res) {
+	Users.findOne({ Username: req.body.Username})
+	.then(function (user){
+		if (user) {
+			return res.status(400).send(req.body.Username  + "  already exist.");
+		} else { 
+			Users
+			.create({
+				Username: req.body.Username,
+				Password: req.body.Password,
+				Email: req.body.Email,
+				Brithday: req.body.Birthday
+			})
+			.then(function(user) {res.status (201).json(user)})
+			.catch(function(error) {
+				console.error(error);
+				res.status(500).send(' Error: ' + error);
+			})
+		}
+	}).catch(function(error) {
+		console.error(error);
+		res.status (500).send(' Error: ' + error);
+    });
+});
+
+
+
 // Adds a new user to the list of USERS.
-app.post('/users', (req, res) => {
+/*app.post('/users', (req, res) => {
   let newUser = req.body;
 
   if (!newUser.name) {
@@ -277,7 +347,7 @@ app.post('/users', (req, res) => {
     Users.push(newUser);
     res.status(201).send(newUser);
   }
-});
+});*/
 
 // Edit user information
 
