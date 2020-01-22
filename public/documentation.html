@@ -41,7 +41,7 @@
 		  </tr>
 		  <tr>
 			<td>Get data about a single movie by title</td>
-			<td>/movies/:title</td>
+			<td>/movies/:Title</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
@@ -51,7 +51,7 @@
 		  </tr>
 		  <tr>
 			<td>Get data about a movie genre</td>
-			<td>/movies/genres/:name</td>
+			<td>/movies/genres/:Name</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
@@ -65,7 +65,7 @@
 		  </tr>
 		  <tr>
 			<td>Get data about a director</td>
-			<td>/movies/directors/:name</td>
+			<td>/movies/directors/:Name</td>
 			<td>GET</td>
 			<td>None</td>
 			<td>
@@ -97,7 +97,7 @@
 		  </tr>
 		  <tr>
 			<td>Update a user's information</td>
-			<td>/users/:id</td>
+			<td>/users/:Username</td>
 			<td>PUT</td>
 			<td>
 			  JSON object holding data about the user to add. Structure:
@@ -110,7 +110,7 @@
 		  </tr>
 		  <tr>
 			<td>Add a movie to the user's favorites list</td>
-			<td>/users/:username/movies/:movieid</td>
+			<td>/users/:Username/movies/:movieID</td>
 			<td>POST</td>
 			<td>None</td>
 			<td>
@@ -120,7 +120,7 @@
 		  </tr>
 		  <tr>
 			<td>Delete a movie from the user's favorites list</td>
-			<td>/favorites/:id/movies/:movieid</td>
+			<td>/favorites/:Username/Movies/:movieID</td>
 			<td>DELETE</td>
 			<td>None</td>
 			<td>
@@ -130,7 +130,7 @@
 		  </tr>
 		  <tr>
 			<td>Remove a user from the registry.</td>
-			<td>/users/:id</td>
+			<td>/users/:Username</td>
 			<td>DELETE</td>
 			<td>None</td>
 			<td>A message indicating the user was removed from the registry.</td>
