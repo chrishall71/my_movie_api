@@ -1,9 +1,10 @@
+/* eslint-disable no-console */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-const */
 // IMPORT DEPENDENCIES
 const express = require('express');
 const morgan = require('morgan');
-const uuid = require('uuid');
+// const uuid = require('uuid');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
@@ -31,7 +32,7 @@ app.get('/', (req, res) => {
 app.get('/movies', (req, res) => {
   Movies.find()
     .then((movies) => {
-      res.status(201).json(movies)
+      res.status(201).json(movies);
     })
     .catch((err) => {
       console.error(err);
@@ -75,7 +76,7 @@ app.get('/movies/directors/:Name', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error: " + err);
+      res.status(500).send(`Error: ${err}`);
     });
 });
 
@@ -90,7 +91,7 @@ app.get('/movies/genres/:Name', (req, res) => {
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send("Error: " + err);
+      res.status(500).send(`Error: ${err}`);
     });
 });
 
@@ -100,7 +101,7 @@ app.get('/movies/genres/:Name', (req, res) => {
 app.get('/users', (req, res) => {
   Users.find()
     .then((users) => {
-      res.status(201).json(users)
+      res.status(201).json(users);
     })
     .catch((err) => {
       console.error(err);
@@ -135,19 +136,19 @@ app.get('/users/:Username', (req, res) => {
 } */
 app.post('/users', (req, res) => {
   Users.findOne({ Username: req.body.Username })
+    // eslint-disable-next-line consistent-return
     .then((user) => {
       if (user) {
         return res.status(400).send(`${req.body.Username}  already exist.`);
       // eslint-disable-next-line no-else-return
       } else {
-        Users
-          .create({
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Brithday: req.body.Birthday
-          })
-          .then((user) => {res.status(201).json(user);})
+        Users.create({
+          Username: req.body.Username,
+          Password: req.body.Password,
+          Email: req.body.Email,
+          Brithday: req.body.Birthday,
+        })
+          .then((userParam) => { res.status(201).json(userParam); })
           .catch((error) => {
             console.error(error);
             res.status(500).send(`Error: ${error}`);
@@ -169,22 +170,24 @@ app.post('/users', (req, res) => {
 } */
 app.put('/users/:Username', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username },
-    { $set:
+    {
+      $set:
     {
       Username: req.body.Username,
       Password: req.body.Password,
       Email: req.body.Email,
-      Birthday: req.body.Birthday
-    }},
+      Birthday: req.body.Birthday,
+    },
+    },
     { new: true }, // This line makes sure that the updated document is returned
     (err, updatedUser) => {
       if (err) {
         console.error(err);
         res.status(500).send(`Error: ${err}`);
       } else {
-        res.json(updatedUser)
+        res.json(updatedUser);
       }
-    })
+    });
 });
 
 // Delete a user by username
@@ -192,14 +195,14 @@ app.delete('/users/:Username', (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
-        res.status(400).send(req.params.Username + ' was not found.');
+        res.status(400).send(`${req.params.Username} was not found.`);
       } else {
-        res.status(200).send(req.params.Username + ' was deleted.');
+        res.status(200).send(`${req.params.Username} was deleted.`);
       }
     })
     .catch((err) => {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send(`Error: ${err}`);
     });
 });
 
@@ -208,38 +211,38 @@ app.delete('/users/:Username', (req, res) => {
 // Add a favorite Movie to a User
 app.post('/users/:Username/Movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $push: { FavoriteMovies: req.params.MovieID }
+    $push: { FavoriteMovies: req.params.MovieID },
   },
   { new: true }, // This line makes sure that the updated document is returned
   (err, updatedUser) => {
     if (err) {
       console.error(err);
-      res.status(500).send('Error: ' + err);
+      res.status(500).send(`Error: ${err}`);
     } else {
-      res.json(updatedUser)
+      res.json(updatedUser);
     }
-  })
+  });
 });
 
 // Remove a favorite Movie from a User.
 app.delete('/users/:Username/movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $pull : { FavoriteMovies : req.params.MovieID }
+    $pull: { FavoriteMovies: req.params.MovieID },
   },
   { new: true }, // This line makes sure that the updated document is returned
   (err, updatedUser) => {
     if (err) {
       console.error(err);
-      res.status(500).send("Error: " + err);
+      res.status(500).send(`Error: ${err}`);
     } else {
-      res.json(updatedUser)
+      res.json(updatedUser);
     }
-  })
+  });
 });
 
 
 // Error Handling in Express
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // eslint-disable-next-line no-console
   console.error(err.stack);
   res.status(500).send('Something broke!');
