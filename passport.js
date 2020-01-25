@@ -29,13 +29,14 @@ passport.use(new LocalStrategy({
 
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-  secretOrKey: 'your_jwt_secret' },
-(jwtPayload, callback) => {
-  return Users.findById(jwtPayload._id)
-    .then((user) => {
-      return callback(null, user);
-    })
-    .catch((error) => {
-      return callback(error)
-    });
+  secretOrKey: 'your_jwt_secret',
+},
+async (jwtPayload, callback) => {
+  try {
+    // eslint-disable-next-line no-underscore-dangle
+    const user = await Users.findById(jwtPayload._id);
+    return callback(null, user);
+  } catch (error1) {
+    return callback(error1);
+  }
 }));

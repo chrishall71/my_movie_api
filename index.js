@@ -3,16 +3,18 @@
 /* eslint-disable prefer-const */
 // IMPORT DEPENDENCIES
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan');
 // const uuid = require('uuid');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
 const Movies = Models.Movie;
 const Users = Models.User;
-const passport = require('passport');
+
 require('./passport');
 
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
