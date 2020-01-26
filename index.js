@@ -10,23 +10,42 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const { check, validationResults } = require('express-validator');
 const Models = require('./models.js');
+
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
+let auth = require('./auth')(app);
 require('./passport');
 
+// Mongoose local data base connection
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Middleware functions
 app.use(morgan('common'));// log all request with Morgan
 app.use(express.static('public')); // retrieves files from public folder
-app.use(bodyParser.json());
+app.use(bodyParser.json()); // JSON Parsing
 
-let auth = require('./auth')(app);
+// CORS sites granted acces
+let allowedOrigins = ['http://locolhost:5000', 'http://testsite.com', 'http://localhost:8000'];
 
-// Error Handling in Express
+// CORS implementation
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    // eslint-disable-next-line max-len
+    if (allowedOrigins.indexOf(origin) === -1) { // If a specific orgin isn't found on the list of allowed origins
+      let message = `The CORS policy for this application doesnot allow access from the origin${origin}`;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  },
+}));
+
+// Error Handling in Express - last middleware
 app.use((err, req, res, next) => {
   // eslint-disable-next-line no-console
   console.error(err.stack);
@@ -146,31 +165,46 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Birthday: Date
   FavoriteMovie: []
 } */
-app.post('/users', (req, res) => {
-  Users.findOne({ Username: req.body.Username })
+app.post('/users',
+  [ // Validation logic here for request
+    check('Username', 'Username is required').isLength({ min: 6 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail(),
+  ], (req, res) => {
+    // check the validation object for errors
+    let errors = validationResults(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    let hashedPassword = Users.hashedPassword(req.body.Password);
+    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username exist
     // eslint-disable-next-line consistent-return
-    .then((user) => {
-      if (user) {
-        return res.status(400).send(`${req.body.Username}  already exist.`);
-      // eslint-disable-next-line no-else-return
-      } else {
-        Users.create({
-          Username: req.body.Username,
-          Password: req.body.Password,
-          Email: req.body.Email,
-          Brithday: req.body.Birthday,
-        })
-          .then((userParam) => { res.status(201).json(userParam); })
-          .catch((error) => {
-            console.error(error);
-            res.status(500).send(`Error: ${error}`);
-          });
-      }
-    }).catch((error) => {
-      console.error(error);
-      res.status(500).send(` Error: ${error}`);
-    });
-});
+      .then((user) => {
+        if (user) {
+        // If the user is found, send a response that it already exists
+          return res.status(400).send(`${req.body.Username}  already exist.`);
+          // eslint-disable-next-line no-else-return
+        } else {
+          Users.create({
+            Username: req.body.Username,
+            Password: hashedPassword,
+            Email: req.body.Email,
+            Brithday: req.body.Birthday,
+          })
+            .then((userParam) => { res.status(201).json(userParam); })
+            .catch((error) => {
+              console.error(error);
+              res.status(500).send(`Error: ${error}`);
+            });
+        }
+      }).catch((error) => {
+        console.error(error);
+        res.status(500).send(` Error: ${error}`);
+      });
+  });
 
 // Update user information, by username
 /* We'll expect JSON in this format
@@ -256,4 +290,4 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 const PORT = process.env.PORT || 5000;
 
 // eslint-disable-next-line no-console
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
