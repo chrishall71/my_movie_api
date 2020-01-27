@@ -22,7 +22,9 @@ let auth = require('./auth')(app);
 require('./passport');
 
 // Mongoose local data base connection
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true });
+
+/* mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true }); */
+mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 // Middleware functions
 app.use(morgan('common'));// log all request with Morgan
@@ -288,6 +290,6 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
 
 // START SERVER
 const PORT = process.env.PORT || 5000;
-
+// added port info for other site access
 // eslint-disable-next-line no-console
 app.listen(PORT, '0.0.0.0', () => console.log(`Server started on port ${PORT}`));
