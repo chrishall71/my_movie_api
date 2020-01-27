@@ -56,7 +56,8 @@ app.use((err, req, res, next) => {
 
 // GET Request
 app.get('/', (req, res) => {
-  res.redirect('/index.html');
+  var responseText = 'Welcome to myFlix. Enjoy'
+  res.send(responseText);
 });
 
 // --MOVIES--
