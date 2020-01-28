@@ -13,18 +13,18 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { check, validationResult } = require('express-validator');
 const Models = require('./models.js');
-
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
 
 let auth = require('./auth')(app);
-require('./passport');
+
 
 // Mongoose local data base connection
 
 /* mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true }); */
-mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
 
 // Middleware functions
 app.use(morgan('common'));// log all request with Morgan
@@ -32,7 +32,8 @@ app.use(express.static('public')); // retrieves files from public folder
 app.use(bodyParser.json()); // JSON Parsing
 
 // CORS sites granted acces
-let allowedOrigins = ['http://locolhost:5000', 'http://testsite.com', 'http://localhost:8000'];
+app.use(cors());
+/* let allowedOrigins = ['http://locolhost:5000', 'https://myflix-movies.herokuapp.com'];
 
 // CORS implementation
 app.use(cors({
@@ -45,7 +46,7 @@ app.use(cors({
     }
     return callback(null, true);
   },
-}));
+})); */
 
 // Error Handling in Express - last middleware
 app.use((err, req, res, next) => {
@@ -182,7 +183,7 @@ app.post('/users',
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashedPassword(req.body.Password);
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username exist
     // eslint-disable-next-line consistent-return
       .then((user) => {

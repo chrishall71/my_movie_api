@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chrishall71/my_movie_api#readme",
   "dependencies": {
+    "bcrypt": "^3.0.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -41,5 +42,4 @@
     "eslint-plugin-import": "^2.20.0",
     "nodemon": "^2.0.2",
     "typescript": "^3.7.4"
-  }
-}
+  }}
