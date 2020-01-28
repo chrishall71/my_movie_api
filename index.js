@@ -56,7 +56,7 @@ app.use((err, req, res, next) => {
 
 // GET Request
 app.get('/', (req, res) => {
-  var responseText = 'Welcome to myFlix. Enjoy'
+  let responseText = '<h2>Welcome to myFlix. Enjoy<h2>';
   res.send(responseText);
 });
 
