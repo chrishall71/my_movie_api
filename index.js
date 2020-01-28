@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const { check, validationResults } = require('express-validator');
+const { check, validationResult } = require('express-validator');
 const Models = require('./models.js');
 
 
@@ -24,7 +24,7 @@ require('./passport');
 // Mongoose local data base connection
 
 /* mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true }); */
-mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Middleware functions
 app.use(morgan('common'));// log all request with Morgan
@@ -176,7 +176,7 @@ app.post('/users',
     check('Email', 'Email does not appear to be valid').isEmail(),
   ], (req, res) => {
     // check the validation object for errors
-    let errors = validationResults(req);
+    let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
