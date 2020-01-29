@@ -32,7 +32,8 @@ app.use(express.static('public')); // retrieves files from public folder
 app.use(bodyParser.json()); // JSON Parsing
 
 // CORS sites granted acces
-app.use(cors());
+app.use(cors()); // use all origin
+
 /* let allowedOrigins = ['http://locolhost:5000', 'https://myflix-movies.herokuapp.com'];
 
 // CORS implementation
@@ -285,7 +286,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
       console.error(err);
       res.status(500).send(`Error: ${err}`);
     } else {
-      res.json(updatedUser);
+      res.status(201).send('Movie ID #'+ req.params.MovieID + ' is now removed from favorites.');
     }
   });
 });
