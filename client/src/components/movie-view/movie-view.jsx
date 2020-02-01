@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 export class MovieView extends React.Component {
 
@@ -6,10 +7,6 @@ export class MovieView extends React.Component {
 		super();
 
 		this.state = {};
-	}
-
-	homeButton() {
-		console.log('Hello Its Working')
 	}
 
 	render() {
@@ -36,9 +33,7 @@ export class MovieView extends React.Component {
 					<span className='label'>Director: </span>
 					<span className='value'>{movie.Director.Name}</span>
 				</div>
-				<div>
-					<button onClick={this.homeButton}>Back to Movies</button>
-				</div>
+				<button onClick={() => window.location.href = '/'} >Back to Movies</button>
 			</div >
 		);
 	}
