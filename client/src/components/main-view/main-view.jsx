@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import axios from 'axios';
+import { LoginView } from '../login-view/login-view';
+import { RegistrationView } from '../registration-view/registration-view.jsx'
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
+import './main-view.scss';
+
 export class MainView extends React.Component {
 	constructor() {
-		// Super class constructor
 		super();
 
-		// Init an empty state
 		this.state = {
 			movies: null,
-			selectedMovie: null
+			selectedMovie: null,
+			user: null,
+			register: false
 		};
 	}
 
@@ -28,17 +32,38 @@ export class MainView extends React.Component {
 			});
 	}
 
+	// clicking movie to get more info
 	onMovieClick(movie) {
 		this.setState({
 			selectedMovie: movie
 		});
 	}
 
-	// This overrides the render() method of the superclass
-	// No need to call super() though, as it dows nothing by default
-	render() {
-		const { movies, selectedMovie } = this.state;
+	onLoggedIn(user) {
+		this.setState({
+			user
+		});
+	}
 
+	onButtonClick() {
+		this.setState({
+			selectedMovie: null
+		})
+	}
+
+	register() {
+		this.setState({
+			register: true
+		})
+	}
+
+	render() {
+		const { movies, selectedMovie, user, register } = this.state;
+
+		if (!user && register === false) return <LoginView onClick={() => this.register()} onLoggedIn={user =>
+			this.onLoggedIn(user)} />
+
+		if (register) return <RegistrationView onCLick={() => this.alreadyMember()} onSignedIn={user => this.onSignedIn(user)} />
 		// Before the movie has been loaded
 		if (!movies) return (<div className='main-view' />);
 
@@ -46,7 +71,7 @@ export class MainView extends React.Component {
 			<div className='main-view'>
 				{selectedMovie
 					? <MovieView
-						movie={selectedMovie} />
+						movie={selectedMovie} onClick={() => this.onButtonClick()} />
 					: movies.map(movie => (
 						<MovieCard
 							key={movie._id}

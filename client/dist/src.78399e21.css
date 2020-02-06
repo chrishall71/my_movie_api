@@ -1,3 +1,39 @@
+.login-form {
+  widows: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  color: #fdf5e6;
+}
+.registerHeader {
+  color: #fdf5e6;
+  text-align: center;
+}
+
+.registrationForm {
+  widows: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  color: #fdf5e6;
+}
+.moviecard {
+  display: grid;
+  margin: 0;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+}
+.movieview {
+  max-width: 500px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+}
+body {
+  background-color: #112c46;
+}
 .my-flix {
   color: steelblue;
 }
