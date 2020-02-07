@@ -1,6 +1,14 @@
+.moviecarddiv {
+	display: inline-flex;
+	width: 33%;
+	justify-content: center;
+	height: 715px;
+	align-content: space-evenly;
+} 
+
 .moviecard {
-	display: grid;
-	margin: 0;
-	grid-gap: 10px;
-	grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+	display: flex;
+	height: 700px;
+	border-radius: 1rem;
 }
+

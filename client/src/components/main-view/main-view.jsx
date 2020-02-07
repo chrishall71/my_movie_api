@@ -45,6 +45,7 @@ export class MainView extends React.Component {
 		});
 	}
 
+	// button to return back
 	onButtonClick() {
 		this.setState({
 			selectedMovie: null
@@ -56,6 +57,13 @@ export class MainView extends React.Component {
 			register: true
 		})
 	}
+
+	alreadyMember() {
+		this.setState({
+			register: false
+		})
+	}
+
 
 	render() {
 		const { movies, selectedMovie, user, register } = this.state;

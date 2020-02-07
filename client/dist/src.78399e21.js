@@ -49016,6 +49016,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _CardDeck = _interopRequireDefault(require("react-bootstrap/CardDeck"));
+
 require("./movie-card.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49056,8 +49058,9 @@ function (_React$Component) {
           movie = _this$props.movie,
           _onClick = _this$props.onClick;
       return _react.default.createElement("div", {
-        className: "moviecard"
-      }, _react.default.createElement(_Card.default, {
+        className: "moviecarddiv"
+      }, _react.default.createElement(_CardDeck.default, null, _react.default.createElement(_Card.default, {
+        className: "moviecard",
         style: {
           width: '13rem'
         }
@@ -49069,7 +49072,7 @@ function (_React$Component) {
           return _onClick(movie);
         },
         variant: "link"
-      }, "Open"))));
+      }, "Open")))));
     }
   }]);
 
@@ -49085,7 +49088,7 @@ MovieCard.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardDeck":"../../node_modules/react-bootstrap/esm/CardDeck.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49266,7 +49269,8 @@ function (_React$Component) {
       this.setState({
         user: user
       });
-    }
+    } // button to return back
+
   }, {
     key: "onButtonClick",
     value: function onButtonClick() {
@@ -49279,6 +49283,13 @@ function (_React$Component) {
     value: function register() {
       this.setState({
         register: true
+      });
+    }
+  }, {
+    key: "alreadyMember",
+    value: function alreadyMember() {
+      this.setState({
+        register: false
       });
     }
   }, {
@@ -49424,7 +49435,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57758" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61083" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
