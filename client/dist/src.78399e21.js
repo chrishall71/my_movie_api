@@ -49016,8 +49016,6 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
-var _CardDeck = _interopRequireDefault(require("react-bootstrap/CardDeck"));
-
 require("./movie-card.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49059,20 +49057,25 @@ function (_React$Component) {
           _onClick = _this$props.onClick;
       return _react.default.createElement("div", {
         className: "moviecarddiv"
-      }, _react.default.createElement(_CardDeck.default, null, _react.default.createElement(_Card.default, {
+      }, _react.default.createElement(_Card.default, {
         className: "moviecard",
         style: {
-          width: '13rem'
+          width: '15rem'
         }
       }, _react.default.createElement(_Card.default.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_Button.default, {
+      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, {
+        className: "card-text"
+      }, movie.Description)), _react.default.createElement("div", {
+        className: "card-footer"
+      }, _react.default.createElement(_Button.default, {
         onClick: function onClick() {
           return _onClick(movie);
         },
-        variant: "link"
-      }, "Open")))));
+        variant: "outline-primary",
+        size: "sm"
+      }, "Open"))));
     }
   }]);
 
@@ -49088,7 +49091,7 @@ MovieCard.propTypes = {
   }).isRequired,
   onClick: _propTypes.default.func.isRequired
 };
-},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/CardDeck":"../../node_modules/react-bootstrap/esm/CardDeck.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","prop-types":"../../node_modules/prop-types/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","./movie-card.scss":"components/movie-card/movie-card.scss"}],"components/movie-view/movie-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49183,7 +49186,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MainView = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
 var _axios = _interopRequireDefault(require("axios"));
 
@@ -49198,10 +49201,6 @@ var _movieView = require("../movie-view/movie-view");
 require("./main-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -49435,7 +49434,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61083" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53864" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

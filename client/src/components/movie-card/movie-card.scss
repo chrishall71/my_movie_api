@@ -2,13 +2,24 @@
 	display: inline-flex;
 	width: 33%;
 	justify-content: center;
-	height: 715px;
-	align-content: space-evenly;
+	padding: 15px;
 } 
 
 .moviecard {
 	display: flex;
-	height: 700px;
-	border-radius: 1rem;
+	flex-direction: column;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.75), 0 6px 20px 0 rgba(0, 0, 0, 0.30);
+	height: 600px;
+	font-size: small;
 }
+
+.card-footer {  
+  position: absolute;
+	bottom:0;
+	width: 100%;
+	background-color: clear;
+	text-align: center;
+	justify-content: space-between;
+}
+
 

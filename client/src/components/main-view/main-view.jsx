@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { LoginView } from '../login-view/login-view';
 import { RegistrationView } from '../registration-view/registration-view.jsx'
