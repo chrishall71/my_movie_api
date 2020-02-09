@@ -48806,7 +48806,11 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _reactBootstrap = require("react-bootstrap");
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 require("./login-view.scss");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
 
@@ -48833,7 +48837,7 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password); //Send a request to the server for authentication
+    console.log(username, password); // Send a request to the server for authentication
 
     props.onLoggedIn(username);
   };
@@ -48844,7 +48848,7 @@ function LoginView(props) {
     className: "text-center"
   }, _react.default.createElement("span", {
     className: "font-weight-bold"
-  }, "MyFlix"), " Movies"), _react.default.createElement("h2", {
+  }, "MyFlix"), ' ', "Movies"), _react.default.createElement("h2", {
     className: "text-center"
   }, "Welcome"), _react.default.createElement(_reactBootstrap.Form.Group, {
     controlId: "formBasicUsername"
@@ -48870,7 +48874,7 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Log in"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactBootstrap.Form.Group, {
     controlId: "newUser"
-  }, _react.default.createElement(_reactBootstrap.Form.Text, null, "New User? Click ", _react.default.createElement(_reactBootstrap.Button, {
+  }, _react.default.createElement(_reactBootstrap.Form.Text, null, "New User? Click", _react.default.createElement(_reactBootstrap.Button, {
     className: "btn-sm btn",
     id: "registerButton",
     onClick: function onClick() {
@@ -48878,7 +48882,12 @@ function LoginView(props) {
     }
   }, " Register "))));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
+
+LoginView.propTypes = {
+  onLoggedIn: _propTypes.default.func.isRequired,
+  onClick: _propTypes.default.func.isRequired
+};
+},{"react":"../../node_modules/react/index.js","react-bootstrap":"../../node_modules/react-bootstrap/esm/index.js","prop-types":"../../node_modules/prop-types/index.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/registration-view/registration-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -48940,7 +48949,7 @@ function RegistrationView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password, birthday, email); //Send a request to the server for authentication
+    console.log(username, password, birthday, email); // Send a request to the server for authentication
 
     props.onLoggedIn(username);
   };
@@ -48962,7 +48971,7 @@ function RegistrationView(props) {
     }
   }), _react.default.createElement(_Form.default.Text, {
     className: "text-muted"
-  }, "We'll never share your email with anyone else.")), _react.default.createElement(_Form.default.Group, {
+  }, "We will never share your email with anyone else.")), _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicUsername"
   }, _react.default.createElement(_Form.default.Label, null, "Username"), _react.default.createElement(_Form.default.Control, {
     type: "text",
@@ -48995,6 +49004,10 @@ function RegistrationView(props) {
     onClick: handleSubmit
   }, "Register me!")));
 }
+
+RegistrationView.propTypes = {
+  onLoggedIn: _propTypes.default.func.isRequired
+};
 },{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Form":"../../node_modules/react-bootstrap/esm/Form.js","prop-types":"../../node_modules/prop-types/index.js","./registration-view.scss":"components/registration-view/registration-view.scss"}],"components/movie-card/movie-card.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -49038,6 +49051,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+// eslint-disable-next-line import/prefer-default-export
 var MovieCard =
 /*#__PURE__*/
 function (_React$Component) {
@@ -49110,6 +49124,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 require("./movie-view.scss");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -49132,6 +49148,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+// eslint-disable-next-line import/prefer-default-export
 var MovieView =
 /*#__PURE__*/
 function (_React$Component) {
@@ -49159,7 +49176,7 @@ function (_React$Component) {
       }, _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, "Genre: ", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Director: ", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Discription: ", movie.Description), _react.default.createElement(_Button.default, {
+      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, "Genre:", movie.Genre.Name), _react.default.createElement(_Card.default.Text, null, "Director:", movie.Director.Name), _react.default.createElement(_Card.default.Text, null, "Discription:", movie.Description), _react.default.createElement(_Button.default, {
         variant: "primary",
         onClick: function onClick() {
           return _onClick();
@@ -49173,7 +49190,17 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
+MovieView.propTypes = {
+  movie: _propTypes.default.shape({
+    Title: _propTypes.default.string.isRequired,
+    Description: _propTypes.default.string.isRequired,
+    ImagePath: _propTypes.default.string.isRequired,
+    Genre: _propTypes.default.string,
+    Director: _propTypes.default.string
+  }).isRequired,
+  onClick: _propTypes.default.func.isRequired
+};
+},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../../node_modules/react-bootstrap/esm/Card.js","prop-types":"../../node_modules/prop-types/index.js","./movie-view.scss":"components/movie-view/movie-view.scss"}],"components/main-view/main-view.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49192,7 +49219,7 @@ var _axios = _interopRequireDefault(require("axios"));
 
 var _loginView = require("../login-view/login-view");
 
-var _registrationView = require("../registration-view/registration-view.jsx");
+var _registrationView = require("../registration-view/registration-view");
 
 var _movieCard = require("../movie-card/movie-card");
 
@@ -49246,7 +49273,7 @@ function (_React$Component) {
       var _this2 = this;
 
       _axios.default.get('https://myflix-movies.herokuapp.com/movies').then(function (response) {
-        //Assign the result to the state
+        // Assign the result to the state
         _this2.setState({
           movies: response.data
         });
@@ -49301,22 +49328,29 @@ function (_React$Component) {
           selectedMovie = _this$state.selectedMovie,
           user = _this$state.user,
           register = _this$state.register;
-      if (!user && register === false) return _react.default.createElement(_loginView.LoginView, {
-        onClick: function onClick() {
-          return _this3.register();
-        },
-        onLoggedIn: function onLoggedIn(user) {
-          return _this3.onLoggedIn(user);
-        }
-      });
-      if (register) return _react.default.createElement(_registrationView.RegistrationView, {
-        onCLick: function onCLick() {
-          return _this3.alreadyMember();
-        },
-        onSignedIn: function onSignedIn(user) {
-          return _this3.onSignedIn(user);
-        }
-      }); // Before the movie has been loaded
+
+      if (!user && register === false) {
+        return _react.default.createElement(_loginView.LoginView, {
+          onClick: function onClick() {
+            return _this3.register();
+          },
+          onLoggedIn: function onLoggedIn(user) {
+            return _this3.onLoggedIn(user);
+          }
+        });
+      }
+
+      if (register) {
+        return _react.default.createElement(_registrationView.RegistrationView, {
+          onCLick: function onCLick() {
+            return _this3.alreadyMember();
+          },
+          onSignedIn: function onSignedIn(user) {
+            return _this3.onSignedIn(user);
+          }
+        });
+      } // Before the movie has been loaded
+
 
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
@@ -49344,7 +49378,7 @@ function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../../node_modules/react/index.js","axios":"../../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view.jsx":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","axios":"../../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","../registration-view/registration-view":"components/registration-view/registration-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","./main-view.scss":"components/main-view/main-view.scss"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -49434,7 +49468,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53864" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56395" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
