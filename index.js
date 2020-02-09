@@ -34,7 +34,7 @@ app.use(bodyParser.json()); // JSON Parsing
 // CORS sites granted acces
 //app.use(cors()); // use all origin
 
-let allowedOrigins = ['http://locolhost:1234', 'https://myflix-movies.herokuapp.com'];
+let allowedOrigins = ['http://localhost:1234', 'https://myflix-movies.herokuapp.com'];
 
 // CORS implementation
 app.use(cors({
