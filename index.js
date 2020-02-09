@@ -47,7 +47,7 @@ app.use(cors({
     }
     return callback(null, true);
   },
-})); * /
+}));
 
 // Error Handling in Express - last middleware
 app.use((err, req, res, next) => {
