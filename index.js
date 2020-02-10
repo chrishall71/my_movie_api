@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable arrow-body-style */
 /* eslint-disable prefer-const */
@@ -32,24 +33,7 @@ app.use(express.static('public')); // retrieves files from public folder
 app.use(bodyParser.json()); // JSON Parsing
 
 // CORS sites granted acces
-// app.use(cors()); // use all origin
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "https://myflix-movies.herokuapp.com"); // update to match the domain you will make the request from
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-app.get('/', function (req, res, next) {
-  // Handle the get for this route
-});
-
-app.post('/', function (req, res, next) {
-  // Handle the post for this route
-});
-
-
-
-
+app.use(cors()); // use all origins
 
 /* let allowedOrigins = ['http://localhost:1234', 'https://myflix-movies.herokuapp.com'];
 
@@ -303,7 +287,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
         console.error(err);
         res.status(500).send(`Error: ${err}`);
       } else {
-        res.status(201).send('Movie ID #' + req.params.MovieID + ' is now removed from favorites.');
+        res.status(201).send(`Movie ID #${req.params.MovieID} is now removed from favorites.`);
       }
     });
 });
