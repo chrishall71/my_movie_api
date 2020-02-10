@@ -51,6 +51,7 @@ app.use(cors({
 })); */
 
 // Error Handling in Express - last middleware
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   // eslint-disable-next-line no-console
   console.error(err.stack);
@@ -282,7 +283,7 @@ app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { se
     $pull: { FavoriteMovies: req.params.MovieID },
   },
     { new: true }, // This line makes sure that the updated document is returned
-    (err, updatedUser) => {
+    (err) => {
       if (err) {
         console.error(err);
         res.status(500).send(`Error: ${err}`);
