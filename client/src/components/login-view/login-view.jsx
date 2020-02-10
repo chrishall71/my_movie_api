@@ -46,7 +46,7 @@ export function LoginView(props) {
           onChange={(e) => setUsername(e.target.value)}
         />
       </Form.Group>
-      <Form.Group>
+      <Form.Group controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
         <Form.Control
           type="password"
