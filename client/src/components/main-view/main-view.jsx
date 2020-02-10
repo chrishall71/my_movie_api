@@ -7,7 +7,6 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
 import './main-view.scss';
-import { response } from 'express';
 
 export class MainView extends React.Component {
   constructor() {
@@ -22,17 +21,13 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    axios
-      .get('https://myflix-movies.herokuapp.com/movies')
-      .then((response) => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    const accessToken = localStorage.getItem('token');
+    if (accessToken !== null) {
+      this.setState({
+        user: localStorage.getItem('user'),
       });
+      this.getMovies(accessToken);
+    }
   }
 
   // clicking movie to get more info

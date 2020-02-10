@@ -14,14 +14,16 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send a request to the server for authentication
-    axios.post('https://myflix-movies.herokuapp.com/login', {
-      Username: username,
-      Password: password,
-    }).then((response) => {
-      const { data } = response;
-      // This method triggers on onLoggedIn methon in Mainview and updates user state
-      props.onLoggedIn(data);
-    })
+    axios
+      .post('https://myflix-movies.herokuapp.com/login', {
+        Username: username,
+        Password: password,
+      })
+      .then((response) => {
+        const { data } = response;
+        // This method triggers on onLoggedIn methon in Mainview and updates user state
+        props.onLoggedIn(data);
+      })
       .catch((e) => {
         console.log('no such user');
       });
@@ -53,11 +55,7 @@ export function LoginView(props) {
           onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Group>
-      <Button
-        className="btn-lg btn-dark btn-block"
-        type="submit"
-        onClick={handleSubmit}
-      >
+      <Button className="btn-lg btn-dark btn-block" type="submit" onClick={handleSubmit}>
         Log in
       </Button>
       <br />
@@ -66,7 +64,11 @@ export function LoginView(props) {
       <Form.Group controlId="newUser">
         <Form.Text>
           New User? Click
-          <Button className="btn-sm btn" id="registerButton" onClick={() => props.onClick()}> Register </Button>
+          <Button className="btn-sm btn" id="registerButton" onClick={() => props.onClick()}>
+            {' '}
+            Register
+            {' '}
+          </Button>
         </Form.Text>
       </Form.Group>
     </Form>
