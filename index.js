@@ -1,7 +1,4 @@
-/* eslint-disable max-len */
-/* eslint-disable no-console */
-/* eslint-disable arrow-body-style */
-/* eslint-disable prefer-const */
+
 // IMPORT DEPENDENCIES
 const express = require('express');
 
@@ -23,8 +20,9 @@ const auth = require('./auth')(app);
 
 
 // Mongoose local data base connection
-
 /* mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true }); */
+
+// Allowing Mongoose to connect to online db on Mongoose Atlas
 mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
 
 // Middleware functions
@@ -35,20 +33,21 @@ app.use(bodyParser.json()); // JSON Parsing
 // CORS sites granted acces
 app.use(cors()); // use all origins
 
-/* let allowedOrigins = ['http://localhost:1234', 'https://myflix-movies.herokuapp.com'];
+// Allowing only certain orgins to be given acces
+const allowedOrigins = ['http://localhost:1234', 'https://myflix-movies.herokuapp.com'];
 
 // CORS implementation
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin) return callback(null, true);
-    // eslint-disable-next-line max-len
-    if (allowedOrigins.indexOf(origin) === -1) { // If a specific orgin isn't found on the list of allowed origins
-      let message = `The CORS policy for this application doesnot allow access from the origin${origin}`;
+    if (allowedOrigins.indexOf(origin) === -1) {
+      // If a specific orgin isn't found on the list of allowed origins
+      const message = `The CORS policy for this application doesnot allow access from the origin${origin}`;
       return callback(new Error(message), false);
     }
     return callback(null, true);
   },
-})); */
+}));
 
 // Error Handling in Express - last middleware
 // eslint-disable-next-line no-unused-vars
@@ -58,9 +57,9 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!');
 });
 
-// GET Request
+// Returns the Homepage
 app.get('/', (req, res) => {
-  let responseText = '<h2>Welcome to myFlix. Enjoy<h2>';
+  const responseText = '<h2>Welcome to myFlix. Enjoy<h2>';
   res.send(responseText);
 });
 
@@ -92,7 +91,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
 
 // Delete a movie from the list
 app.delete('/movies/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  let movie = Movies.find((movieParam) => {
+  const movie = Movies.find((movieParam) => {
     return movieParam.id === req.params.id;
   });
 
@@ -180,13 +179,13 @@ app.post('/users',
     check('Email', 'Email does not appear to be valid').isEmail(),
   ], (req, res) => {
     // check the validation object for errors
-    let errors = validationResult(req);
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
 
-    let hashedPassword = Users.hashPassword(req.body.Password);
+    const hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username exist
       // eslint-disable-next-line consistent-return
       .then((user) => {
