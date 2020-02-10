@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
+
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';

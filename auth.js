@@ -16,7 +16,7 @@ module.exports = (router) => {
   router.post('/login', (req, res) => {
     passport.authenticate('local', { session: false },
       // eslint-disable-next-line no-unused-vars
-      (error, user, info) => {
+      (error, user) => {
         if (error || !user) {
           return res.status(400).json({
             message: 'Something is not right',
