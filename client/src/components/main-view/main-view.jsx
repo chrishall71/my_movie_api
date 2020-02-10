@@ -1,9 +1,4 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable no-tabs */
-/* eslint-disable no-console */
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable indent */
+//  src/components/main-view/main-view.jsx
 import React from 'react';
 import axios from 'axios';
 import { LoginView } from '../login-view/login-view';
@@ -12,6 +7,7 @@ import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
 
 import './main-view.scss';
+import { response } from 'express';
 
 export class MainView extends React.Component {
   constructor() {
@@ -26,7 +22,8 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('https://myflix-movies.herokuapp.com/movies')
+    axios
+      .get('https://myflix-movies.herokuapp.com/movies')
       .then((response) => {
         // Assign the result to the state
         this.setState({
@@ -45,10 +42,14 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(user) {
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user,
+      user: authData.user.Username,
     });
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
   }
 
   // button to return back
@@ -56,6 +57,22 @@ export class MainView extends React.Component {
     this.setState({
       selectedMovie: null,
     });
+  }
+
+  getMovies(token) {
+    axios
+      .get('https://myflix-movies.herokuapp.com/movies', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        // Assing the result to the state
+        this.setState({
+          movies: response.data,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   register() {
@@ -70,7 +87,6 @@ export class MainView extends React.Component {
     });
   }
 
-
   render() {
     const {
       movies, selectedMovie, user, register,
@@ -78,10 +94,7 @@ export class MainView extends React.Component {
 
     if (!user && register === false) {
       return (
-        <LoginView
-          onClick={() => this.register()}
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-        />
+        <LoginView onClick={() => this.register()} onLoggedIn={(user) => this.onLoggedIn(user)} />
       );
     }
 
@@ -94,24 +107,21 @@ export class MainView extends React.Component {
       );
     }
     // Before the movie has been loaded
-    if (!movies) return (<div className="main-view" />);
+    if (!movies) return <div className="main-view" />;
 
     return (
       <div className="main-view">
-        {selectedMovie
-          ? (
-            <MovieView
-              movie={selectedMovie}
-              onClick={() => this.onButtonClick()}
-            />
-          )
-          : movies.map((movie) => (
+        {selectedMovie ? (
+          <MovieView movie={selectedMovie} onClick={() => this.onButtonClick()} />
+        ) : (
+          movies.map((movie) => (
             <MovieCard
               key={movie._id}
               movie={movie}
               onClick={(movie) => this.onMovieClick(movie)}
             />
-          ))}
+          ))
+        )}
       </div>
     );
   }

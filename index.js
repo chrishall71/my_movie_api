@@ -1,4 +1,3 @@
-
 // IMPORT DEPENDENCIES
 const express = require('express');
 
@@ -18,15 +17,17 @@ const Users = Models.User;
 
 const auth = require('./auth')(app);
 
-
 // Mongoose local data base connection
 /* mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true }); */
 
 // Allowing Mongoose to connect to online db on Mongoose Atlas
-mongoose.connect('mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority', { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true });
+mongoose.connect(
+  'mongodb+srv://myFlixDBadmin:Hall3307@myflixdb-qznqw.mongodb.net/myFlixDB?retryWrites=true&w=majority',
+  { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true },
+);
 
 // Middleware functions
-app.use(morgan('common'));// log all request with Morgan
+app.use(morgan('common')); // log all request with Morgan
 app.use(express.static('public')); // retrieves files from public folder
 app.use(bodyParser.json()); // JSON Parsing
 
@@ -37,17 +38,19 @@ app.use(cors()); // use all origins
 const allowedOrigins = ['http://localhost:1234', 'https://myflix-movies.herokuapp.com'];
 
 // CORS implementation
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.indexOf(origin) === -1) {
-      // If a specific orgin isn't found on the list of allowed origins
-      const message = `The CORS policy for this application doesnot allow access from the origin${origin}`;
-      return callback(new Error(message), false);
-    }
-    return callback(null, true);
-  },
-}));
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        // If a specific orgin isn't found on the list of allowed origins
+        const message = `The CORS policy for this application doesnot allow access from the origin${origin}`;
+        return callback(new Error(message), false);
+      }
+      return callback(null, true);
+    },
+  }),
+);
 
 // Error Handling in Express - last middleware
 // eslint-disable-next-line no-unused-vars
@@ -66,7 +69,7 @@ app.get('/', (req, res) => {
 // --MOVIES--
 
 // Get list of data about ALL Movies (GET)
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
   Movies.find()
     .then((movies) => {
       res.status(201).json(movies);
@@ -91,14 +94,10 @@ app.get('/movies/:Title', passport.authenticate('jwt', { session: false }), (req
 
 // Delete a movie from the list
 app.delete('/movies/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
-  const movie = Movies.find((movieParam) => {
-    return movieParam.id === req.params.id;
-  });
+  const movie = Movies.find((movieParam) => movieParam.id === req.params.id);
 
   if (movie) {
-    Movies.filter((obj) => {
-      return obj.id !== req.params.id;
-    });
+    Movies.filter((obj) => obj.id !== req.params.id);
     res.status(201).send(`Movie${movie.title}with id ${req.params.id}was deleted.`);
   }
 });
@@ -116,7 +115,6 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
       res.status(500).send(`Error: ${err}`);
     });
 });
-
 
 // --GENRE--
 
@@ -171,13 +169,21 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), (r
   Birthday: Date
   FavoriteMovie: []
 } */
-app.post('/users',
-  [ // Validation logic here for request
+app.post(
+  '/users',
+  [
+    // Validation logic here for request
     check('Username', 'Username is required').isLength({ min: 6 }),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
+    check(
+      'Username',
+      'Username contains non alphanumeric characters - not allowed.',
+    ).isAlphanumeric(),
+    check('Password', 'Password is required')
+      .not()
+      .isEmpty(),
     check('Email', 'Email does not appear to be valid').isEmail(),
-  ], (req, res) => {
+  ],
+  (req, res) => {
     // check the validation object for errors
     const errors = validationResult(req);
 
@@ -186,7 +192,8 @@ app.post('/users',
     }
 
     const hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username exist
+    Users.findOne({ Username: req.body.Username })
+      // Search to see if a user with the requested username exist
       // eslint-disable-next-line consistent-return
       .then((user) => {
         if (user) {
@@ -200,17 +207,21 @@ app.post('/users',
             Email: req.body.Email,
             Brithday: req.body.Birthday,
           })
-            .then((userParam) => { res.status(201).json(userParam); })
+            .then((userParam) => {
+              res.status(201).json(userParam);
+            })
             .catch((error) => {
               console.error(error);
               res.status(500).send(`Error: ${error}`);
             });
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.error(error);
         res.status(500).send(` Error: ${error}`);
       });
-  });
+  },
+);
 
 // Update user information, by username
 /* We'll expect JSON in this format
@@ -221,10 +232,10 @@ app.post('/users',
   Birthday: Date
 } */
 app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username },
+  Users.findOneAndUpdate(
+    { Username: req.params.Username },
     {
-      $set:
-      {
+      $set: {
         Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
@@ -239,7 +250,8 @@ app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (r
       } else {
         res.json(updatedUser);
       }
-    });
+    },
+  );
 });
 
 // Delete a user by username
@@ -261,36 +273,50 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 // --LIST OF FAVORITES--
 
 // Add a favorite Movie to a User
-app.post('/users/:Username/Movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $push: { FavoriteMovies: req.params.MovieID },
+app.post(
+  '/users/:Username/Movies/:MovieID',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $push: { FavoriteMovies: req.params.MovieID },
+      },
+      { new: true }, // This line makes sure that the updated document is returned
+      (err, updatedUser) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send(`Error: ${err}`);
+        } else {
+          res.json(updatedUser);
+        }
+      },
+    );
   },
-    { new: true }, // This line makes sure that the updated document is returned
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send(`Error: ${err}`);
-      } else {
-        res.json(updatedUser);
-      }
-    });
-});
+);
 
 // Remove a favorite Movie from a User.
-app.delete('/users/:Username/movies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
-  Users.findOneAndUpdate({ Username: req.params.Username }, {
-    $pull: { FavoriteMovies: req.params.MovieID },
+app.delete(
+  '/users/:Username/movies/:MovieID',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $pull: { FavoriteMovies: req.params.MovieID },
+      },
+      { new: true }, // This line makes sure that the updated document is returned
+      (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send(`Error: ${err}`);
+        } else {
+          res.status(201).send(`Movie ID #${req.params.MovieID} is now removed from favorites.`);
+        }
+      },
+    );
   },
-    { new: true }, // This line makes sure that the updated document is returned
-    (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send(`Error: ${err}`);
-      } else {
-        res.status(201).send(`Movie ID #${req.params.MovieID} is now removed from favorites.`);
-      }
-    });
-});
+);
 
 // START SERVER
 const PORT = process.env.PORT || 5000;

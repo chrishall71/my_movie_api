@@ -19,6 +19,7 @@ export function LoginView(props) {
       Password: password,
     }).then((response) => {
       const { data } = response;
+      // This method triggers on onLoggedIn methon in Mainview and updates user state
       props.onLoggedIn(data);
     })
       .catch((e) => {
