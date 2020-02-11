@@ -48840,14 +48840,18 @@ function LoginView(props) {
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault(); // Send a request to the server for authentication
 
-    _axios.default.post('https://myflix-movies.herokuapp.com/login', {
-      Username: username,
-      Password: password
+    (0, _axios.default)({
+      method: 'post',
+      url: 'https://myflix-movies.herokuapp.com/login',
+      params: {
+        Username: username,
+        Password: password
+      }
     }).then(function (response) {
-      var data = response.data; // This method triggers on onLoggedIn methon in Mainview and updates user state
+      var data = response.data; // This method triggers on onLoggedIn method in Mainview and updates user state
 
       props.onLoggedIn(data);
-    }).catch(function (e) {
+    }).catch(function (error) {
       console.log('no such user');
     });
   };
@@ -49501,7 +49505,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59236" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50026" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

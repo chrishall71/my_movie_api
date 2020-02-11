@@ -14,17 +14,20 @@ export function LoginView(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Send a request to the server for authentication
-    axios
-      .post('https://myflix-movies.herokuapp.com/login', {
+    axios({
+      method: 'post',
+      url: 'https://myflix-movies.herokuapp.com/login',
+      params: {
         Username: username,
         Password: password,
-      })
+      },
+    })
       .then((response) => {
         const { data } = response;
-        // This method triggers on onLoggedIn methon in Mainview and updates user state
+        // This method triggers on onLoggedIn method in Mainview and updates user state
         props.onLoggedIn(data);
       })
-      .catch((e) => {
+      .catch((error) => {
         console.log('no such user');
       });
   };
