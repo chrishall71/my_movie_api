@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import './login-view.scss';
 import axios from 'axios';
@@ -11,7 +12,7 @@ export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     // Send a request to the server for authentication
     axios({
@@ -24,7 +25,7 @@ export function LoginView(props) {
     })
       .then((response) => {
         const { data } = response;
-        // This method triggers on onLoggedIn method in Mainview and updates user state
+        // This method triggers onLoggedIn method in Mainview and updates user state
         props.onLoggedIn(data);
       })
       .catch((error) => {
@@ -58,7 +59,7 @@ export function LoginView(props) {
           onChange={(e) => setPassword(e.target.value)}
         />
       </Form.Group>
-      <Button className="btn-lg btn-dark btn-block" type="submit" onClick={handleSubmit}>
+      <Button className="btn-lg btn-dark btn-block" type="submit" onClick={handleLogin}>
         Log in
       </Button>
       <br />
@@ -67,11 +68,11 @@ export function LoginView(props) {
       <Form.Group controlId="newUser">
         <Form.Text>
           New User? Click
-          <Button className="btn-sm btn" id="registerButton" onClick={() => props.onClick()}>
-            {' '}
-            Register
-            {' '}
-          </Button>
+          <Link to="/register">
+            <Button className="login-button btn-sm btn" id="registerButton" variant="link">
+              Register
+            </Button>
+          </Link>
         </Form.Text>
       </Form.Group>
     </Form>
@@ -80,5 +81,4 @@ export function LoginView(props) {
 
 LoginView.propTypes = {
   onLoggedIn: PropTypes.func.isRequired,
-  onClick: PropTypes.func.isRequired,
 };

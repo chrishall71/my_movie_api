@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
-
+import { Link } from 'react-router-dom';
 
 import './movie-view.scss';
 
@@ -15,7 +15,7 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, onClick } = this.props;
+    const { movie } = this.props;
 
     if (!movie) return null;
 
@@ -33,12 +33,27 @@ export class MovieView extends React.Component {
               Director:
               {movie.Director.Name}
             </Card.Text>
-            <Card.Text>
+            <Card.Text className="description-box">
               Discription:
               {movie.Description}
             </Card.Text>
-
-            <Button variant="primary" onClick={() => onClick()} className="homeButton">Go back</Button>
+            <div className="movie-footer">
+              <Link to="/movies">
+                <Button type="button" variant="link" size="sm">
+                  Go Back
+                </Button>
+              </Link>
+              <Link to={`/directors/${movie.Director.Name}`}>
+                <Button type="button" variant="link" size="sm">
+                  Director
+                </Button>
+              </Link>
+              <Link to={`/genres/${movie.Genre.Name}`}>
+                <Button type="button" variant="link" size="sm">
+                  Genres
+                </Button>
+              </Link>
+            </div>
           </Card.Body>
         </Card>
       </div>
@@ -48,11 +63,18 @@ export class MovieView extends React.Component {
 
 MovieView.propTypes = {
   movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    Genre: PropTypes.string,
-    Director: PropTypes.string,
+    Title: PropTypes.string,
+    Description: PropTypes.string,
+    ImagePath: PropTypes.string,
+    Genre: PropTypes.shape({
+      Name: PropTypes.string,
+      Description: PropTypes.string,
+    }),
+    Director: PropTypes.shape({
+      Name: PropTypes.string,
+      Bio: PropTypes.string,
+      Brith: PropTypes.string,
+      Death: PropTypes.string,
+    }),
   }).isRequired,
-  onClick: PropTypes.func.isRequired,
 };

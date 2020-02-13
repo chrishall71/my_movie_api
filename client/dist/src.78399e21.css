@@ -1,24 +1,3 @@
-.login-form {
-  widows: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-  height: 100%;
-  color: #fdf5e6;
-}
-.registerHeader {
-  color: #fdf5e6;
-  text-align: center;
-}
-
-.registrationForm {
-  widows: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
-  height: 100%;
-  color: #fdf5e6;
-}
 .moviecarddiv {
   display: inline-flex;
   width: 33%;
@@ -44,12 +23,98 @@
 }
 .movieview {
   max-width: 500px;
-  padding: 15px;
+  padding: 25px;
   margin: auto;
   height: 100%;
 }
+
+.movie-footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: clear;
+  text-align: center;
+}
+
+.discription-box {
+  margin-bottom: 40px;
+}
+.login-form {
+  widows: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  color: #fdf5e6;
+}
+
+.login-button {
+  margin-left: 15px;
+}
+.directorview {
+  max-width: 500px;
+  padding: 25px;
+  margin: auto;
+  height: 100%;
+}
+.registerHeader {
+  color: #fdf5e6;
+  text-align: center;
+}
+
+.registrationForm {
+  widows: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  color: #fdf5e6;
+}
+.genreview {
+  max-width: 500px;
+  padding: 25px;
+  margin: auto;
+  height: 100%;
+}
+.registerHeader {
+  color: #fdf5e6;
+  text-align: center;
+}
+
+.profile-view {
+  widows: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+  height: 100%;
+  color: white;
+}
+
+.profilecard {
+  max-width: 500px;
+  padding: 25px;
+  margin-top: 20px;
+  color: #333333;
+}
 body {
   background-color: #112c46;
+}
+
+.logout-button {
+  position: absolute;
+  right: 20px;
+}
+
+.div-container {
+  padding: 20px;
+}
+
+.main-view {
+  padding-top: 25px;
+}
+
+Navbar {
+  margin-bottom: 25px;
 }
 .my-flix {
   color: steelblue;

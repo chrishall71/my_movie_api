@@ -1,10 +1,18 @@
 //  src/components/main-view/main-view.jsx
 import React from 'react';
 import axios from 'axios';
-import { LoginView } from '../login-view/login-view';
-import { RegistrationView } from '../registration-view/registration-view';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Button from 'react-bootstrap/Button';
+import Navbar from 'react-bootstrap/Navbar';
+
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
+import { LoginView } from '../login-view/login-view';
+import { DirectorView } from '../director-view/director-view';
+import { RegistrationView } from '../registration-view/registration-view';
+import { GenreView } from '../genre-view/genre-view';
+import { ProfileView2 } from '../profile-view/profile-view-2';
 
 import './main-view.scss';
 
@@ -13,8 +21,7 @@ export class MainView extends React.Component {
     super();
 
     this.state = {
-      movies: null,
-      selectedMovie: null,
+      movies: [],
       user: null,
       register: false,
     };
@@ -30,13 +37,7 @@ export class MainView extends React.Component {
     }
   }
 
-  // clicking movie to get more info
-  onMovieClick(movie) {
-    this.setState({
-      selectedMovie: movie,
-    });
-  }
-
+  // LOG IN
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -70,10 +71,27 @@ export class MainView extends React.Component {
       });
   }
 
+  // LOG
+  handleLogout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user: null,
+    });
+    window.open('/', '_self');
+  }
+
   register() {
     this.setState({
       register: true,
     });
+  }
+
+  updatUser(data) {
+    this.setState({
+      userInfo: data,
+    });
+    localStorage.setItem('user, data.Username');
   }
 
   alreadyMember() {
@@ -84,14 +102,8 @@ export class MainView extends React.Component {
 
   render() {
     const {
-      movies, selectedMovie, user, register,
+      movies, user, register, userInfo,
     } = this.state;
-
-    if (!user && register === false) {
-      return (
-        <LoginView onClick={() => this.register()} onLoggedIn={(user) => this.onLoggedIn(user)} />
-      );
-    }
 
     if (register) {
       return (
@@ -105,19 +117,69 @@ export class MainView extends React.Component {
     if (!movies) return <div className="main-view" />;
 
     return (
-      <div className="main-view">
-        {selectedMovie ? (
-          <MovieView movie={selectedMovie} onClick={() => this.onButtonClick()} />
-        ) : (
-          movies.map((movie) => (
-            <MovieCard
-              key={movie._id}
-              movie={movie}
-              onClick={(movie) => this.onMovieClick(movie)}
+      <Router>
+        <Navbar bg="light">
+          <Navbar.Brand>MyFLix Movies</Navbar.Brand>
+          <Link to="/profile">
+            <Button className="profile-btn" variant="link">
+              User Profile
+            </Button>
+          </Link>
+          <Button
+            variant="link"
+            className="logout-button"
+            type="submit"
+            onClick={() => this.handleLogout()}
+          >
+            Log Out
+          </Button>
+        </Navbar>
+        <Container className="container">
+          <div className="main-view">
+            <Route
+              exact
+              path="/"
+              render={() => {
+                if (!user) return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
+                return movies.map((m) => <MovieCard key={m._id} movie={m} />);
+              }}
             />
-          ))
-        )}
-      </div>
+            <Route path="/register" render={() => <RegistrationView />} />
+            <Route
+              exact
+              path="/movies"
+              render={() => movies.map((m) => <MovieCard key={m._id} movie={m} />)}
+            />
+            <Route
+              path="/movies/:movieId"
+              render={({ match }) => (
+                <MovieView movie={movies.find((m) => m._id === match.params.movieId)} />
+              )}
+            />
+            <Route
+              path="/genres/:name"
+              render={({ match }) => {
+                if (!movies) return <div className="main-view" />;
+                return (
+                  <GenreView genre={movies.find((m) => m.Genre.Name === match.params.name).Genre} />
+                );
+              }}
+            />
+            <Route
+              path="/directors/:name"
+              render={({ match }) => {
+                if (!movies) return <div className="main-view" />;
+                return (
+                  <DirectorView
+                    director={movies.find((m) => m.Director.Name === match.params.name).Director}
+                  />
+                );
+              }}
+            />
+            <Route path="/profile" render={() => <ProfileView2 />} />
+          </div>
+        </Container>
+      </Router>
     );
   }
 }

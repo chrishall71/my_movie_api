@@ -4,21 +4,32 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import PropTypes from 'prop-types';
 
 import './registration-view.scss';
+import Axios from 'axios';
 
-export function RegistrationView(props) {
+export function RegistrationView() {
   const [username, createUsername] = useState('');
   const [password, createPassword] = useState('');
   const [email, createEmail] = useState('');
   const [birthday, createDob] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleRegistration = (e) => {
     e.preventDefault();
-    console.log(username, password, birthday, email);
-    // Send a request to the server for authentication
-    props.onLoggedIn(username);
+    Axios.post('https://myflix-movies.herokuapp.com/users', {
+      Username: username,
+      Password: password,
+      Email: email,
+      Birthday: birthday,
+    })
+      .then((response) => {
+        const { data } = response;
+        console.log(data);
+        window.open('/', '_self'); // with '_self' page will open in the current tab
+      })
+      .catch((e) => {
+        console.log('error registering the user');
+      });
   };
 
   return (
@@ -67,14 +78,18 @@ export function RegistrationView(props) {
             onChange={(e) => createDob(e.target.value)}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" onClick={handleSubmit}>
+        <Button variant="primary" type="submit" onClick={handleRegistration}>
           Register me!
         </Button>
+        <Form.Group controlId="newUser">
+          <Form.Text>
+            Already Registerd?
+            <Button variant="link" onClick={() => (window.location.href = '/')}>
+              Login
+            </Button>
+          </Form.Text>
+        </Form.Group>
       </Form>
     </Container>
   );
 }
-
-RegistrationView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
-};
