@@ -101,9 +101,7 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const {
-      movies, user, register, userInfo,
-    } = this.state;
+    const { movies, user, register } = this.state;
 
     if (register) {
       return (
