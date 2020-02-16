@@ -96,6 +96,45 @@
   margin-top: 20px;
   color: #333333;
 }
+
+.profile-div {
+  text-align: center;
+}
+
+.home-button {
+  margin-right: 10px;
+}
+.unregister-btn {
+  color: #ffffff;
+}
+
+.unregister-btn:hover {
+  color: white;
+}
+
+.update-view {
+  color: #ffffff;
+  max-width: 500px;
+  padding: 25px;
+  margin: auto;
+  height: 100%;
+}
+
+.page-info {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 20px;
+  color: #add8e6;
+}
+
+.update-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.back-btn1 {
+  margin-right: 10px;
+}
 body {
   background-color: #112c46;
 }

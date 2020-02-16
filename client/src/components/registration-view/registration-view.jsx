@@ -9,6 +9,7 @@ import './registration-view.scss';
 import Axios from 'axios';
 
 export function RegistrationView() {
+  const [name, createName] = useState('');
   const [username, createUsername] = useState('');
   const [password, createPassword] = useState('');
   const [email, createEmail] = useState('');
@@ -17,6 +18,7 @@ export function RegistrationView() {
   const handleRegistration = (e) => {
     e.preventDefault();
     Axios.post('https://myflix-movies.herokuapp.com/users', {
+      Name: name,
       Username: username,
       Password: password,
       Email: email,
@@ -36,6 +38,26 @@ export function RegistrationView() {
     <Container className="registrationContainer">
       <h2 className="registerHeader">Register</h2>
       <Form className="registrationForm">
+        <Form.Group controlId="formBasicName">
+          <Form.Label>Name</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => createName(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicUsername">
+          <Form.Label>Username</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => createUsername(e.target.value)}
+          />
+        </Form.Group>
+
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control
@@ -47,16 +69,6 @@ export function RegistrationView() {
           <Form.Text className="text-muted">
             We will never share your email with anyone else.
           </Form.Text>
-        </Form.Group>
-
-        <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => createUsername(e.target.value)}
-          />
         </Form.Group>
 
         <Form.Group controlId="formBasicPassword">

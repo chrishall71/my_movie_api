@@ -3,7 +3,9 @@ import axios from 'axios';
 import Form from 'react-bootstrap/Form';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
+import ListGroup from 'react-bootstrap/ListGroup';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 import './profile-view.scss';
 
 export class ProfileView2 extends React.Component {
@@ -38,7 +40,7 @@ export class ProfileView2 extends React.Component {
           username: response.data.Username,
           email: response.data.Email,
           birthday: response.data.Birthday,
-          favoriteMovies: response.data.Favorites,
+          favoriteMovies: response.data.FavoriteMovies,
         });
       })
       .catch((error) => {
@@ -51,9 +53,9 @@ export class ProfileView2 extends React.Component {
     console.log(favoriteMovie);
     axios
       .delete(
-        `https://myflix-movies.herokuapp.com/users/${localStorage.getItem(
+        `http://myflix-movies.herokuapp.com/users/${localStorage.getItem(
           'user',
-        )}/Favorites/${favoriteMovie}`,
+        )}/movies/${favoriteMovie}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
         },
@@ -63,6 +65,31 @@ export class ProfileView2 extends React.Component {
       })
       .catch((event) => {
         alert('Oops... something went wrong...');
+      });
+  }
+
+  deleteProfile() {
+    axios
+      .delete(`https://myflix-movies.herokuapp.com/users/${localStorage.getItem('user')}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+      })
+      .then((res) => {
+        alert('Do you really want to delete your account?');
+      })
+      .then((res) => {
+        alert('Account was successfully deleted');
+      })
+      .then((res) => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        this.setState({
+          user: null,
+        });
+        window.open('/', '_self');
+      })
+      .catch((e) => {
+        alert(`Account could not be deleted ${e}`);
       });
   }
 
@@ -78,53 +105,52 @@ export class ProfileView2 extends React.Component {
     return (
       <Container className="profile-view">
         <h2 className="registerHeader">User Information</h2>
-        <Form className="updateUserForm">
-          <Form.Label>
-            Username:
+        <ListGroup>
+          <ListGroup.Item variant="secondary">
+            <b>Username:</b>
+            {' '}
             {username}
-            >
-          </Form.Label>
-          <br />
-          <Form.Label>
-            Email:
+          </ListGroup.Item>
+          <ListGroup.Item variant="secondary">
+            <b>Email:</b>
+            {' '}
             {email}
-          </Form.Label>
-          <br />
-          <Form.Label>
-            Birthday:
+          </ListGroup.Item>
+          <ListGroup.Item variant="secondary">
+            <b>Birthday:</b>
+            {' '}
             {birthday && birthday.slice(0, 10)}
-          </Form.Label>
-          <br />
-          <Form.Label>
-            Favorite Movies:
-            {favoriteMovies}
-          </Form.Label>
-          <br />
-          <Card className="profilecard">
-            <h5>Update User Information</h5>
-            <br />
-            <Form.Group controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicUsername">
-              <Form.Label>Username</Form.Label>
-              <Form.Control type="text" placeholder="Username" />
-            </Form.Group>
-
-            <Form.Group controlId="formBasicDob">
-              <Form.Label>Date of Birth</Form.Label>
-              <Form.Control type="date" placeholder="01/01/1985" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Update User!
-            </Button>
-          </Card>
+          </ListGroup.Item>
+          <ListGroup.Item variant="secondary">
+            <b>Favorite Movies:</b>
+            <div>{favoriteMovies}</div>
+          </ListGroup.Item>
+        </ListGroup>
+        <Form>
           <Form.Group controlId="newUser">
             <Form.Text>
-              Already Registerd?
-              <Button variant="link">Login</Button>
+              <div className="profile-div">
+                <Link to="/movies">
+                  <Button className="home-button" type="button" variant="link" size="sm">
+                    Back
+                  </Button>
+                </Link>
+                <Link to="/update">
+                  <Button className="button-update" size="sm" variant="link">
+                    Update profile
+                  </Button>
+                </Link>
+                <Link to="/update">
+                  <Button
+                    className="button-update"
+                    size="sm"
+                    variant="link"
+                    onClick={() => this.deleteProfile()}
+                  >
+                    Delete User
+                  </Button>
+                </Link>
+              </div>
             </Form.Text>
           </Form.Group>
         </Form>

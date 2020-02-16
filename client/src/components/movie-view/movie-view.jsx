@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 import './movie-view.scss';
 
@@ -18,6 +19,30 @@ export class MovieView extends React.Component {
     const { movie } = this.props;
 
     if (!movie) return null;
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      axios
+        .post(
+          `https://myflix-movies.herokuapp.com/users/${localStorage.getItem('user')}/Movies/${
+            movie._id
+          }`,
+          {
+            Username: localStorage.getItem('user'),
+          },
+          {
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+          },
+        )
+        .then((response) => {
+          console.log(response);
+          alert('Movie has been added to your Favorite List!');
+        })
+        .catch((e) => {
+          console.log('error adding movie to list');
+          alert('Ooooops... Something went wrong!');
+        });
+    }
 
     return (
       <div className="movieview">
@@ -53,6 +78,11 @@ export class MovieView extends React.Component {
                   Genres
                 </Button>
               </Link>
+              <Link to="/movies">
+                <Button size="sm" variant="link" onClick={(event) => handleSubmit(event)}>
+                  Add to Favorite
+                </Button>
+              </Link>
             </div>
           </Card.Body>
         </Card>
@@ -66,6 +96,7 @@ MovieView.propTypes = {
     Title: PropTypes.string,
     Description: PropTypes.string,
     ImagePath: PropTypes.string,
+    _id: PropTypes.string,
     Genre: PropTypes.shape({
       Name: PropTypes.string,
       Description: PropTypes.string,

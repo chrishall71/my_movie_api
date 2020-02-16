@@ -13,6 +13,7 @@ import { DirectorView } from '../director-view/director-view';
 import { RegistrationView } from '../registration-view/registration-view';
 import { GenreView } from '../genre-view/genre-view';
 import { ProfileView2 } from '../profile-view/profile-view-2';
+import { ProfileUpdate } from '../profile-view/profile-update';
 
 import './main-view.scss';
 
@@ -101,7 +102,9 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const { movies, user, register } = this.state;
+    const {
+      movies, user, register, userInfo,
+    } = this.state;
 
     if (register) {
       return (
@@ -175,6 +178,7 @@ export class MainView extends React.Component {
               }}
             />
             <Route path="/profile" render={() => <ProfileView2 />} />
+            <Route path="/update" render={() => <ProfileUpdate />} />
           </div>
         </Container>
       </Router>
