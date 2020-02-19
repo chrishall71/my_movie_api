@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
+import { Link } from 'react-router-dom';
 
 import './registration-view.scss';
 import Axios from 'axios';
@@ -27,9 +28,9 @@ export function RegistrationView() {
       .then((response) => {
         const { data } = response;
         console.log(data);
-        window.open('/', '_self'); // with '_self' page will open in the current tab
+        window.open('/client', '_self'); // with '_self' page will open in the current tab
       })
-      .catch((e) => {
+      .catch(() => {
         console.log('error registering the user');
       });
   };
@@ -96,9 +97,9 @@ export function RegistrationView() {
         <Form.Group controlId="newUser">
           <Form.Text>
             Already Registerd?
-            <Button variant="link" onClick={() => (window.location.href = '/')}>
-              Login
-            </Button>
+            <Link to="/">
+              <Button variant="link">Login</Button>
+            </Link>
           </Form.Text>
         </Form.Group>
       </Form>

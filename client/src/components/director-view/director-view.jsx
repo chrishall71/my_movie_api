@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Card } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
 import './director-view.scss';
 
@@ -28,11 +27,9 @@ export class DirectorView extends React.Component {
               Bio:
               {director.Bio}
             </Card.Text>
-            <Link to="" onClick={() => history.back()}>
-              <Button type="button" variant="link" size="sm">
-                Back
-              </Button>
-            </Link>
+            <Button type="button" variant="link" size="sm" onClick={() => history.back()}>
+              Back
+            </Button>
           </Card.Body>
         </Card>
       </div>

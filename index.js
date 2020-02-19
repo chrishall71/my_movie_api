@@ -9,6 +9,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { check, validationResult } = require('express-validator');
+const path = require('path');
 const Models = require('./models.js');
 require('./passport');
 
@@ -29,6 +30,7 @@ mongoose.connect(
 // Middleware functions
 app.use(morgan('common')); // log all request with Morgan
 app.use(express.static('public')); // retrieves files from public folder
+app.use('/client', express.static(path.join(__dirname, 'client', 'dist')));
 app.use(bodyParser.json()); // JSON Parsing
 
 // CORS sites granted acces

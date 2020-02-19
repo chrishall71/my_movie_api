@@ -95,11 +95,15 @@ export function ProfileUpdate() {
                 />
               </Form.Group>
               <Row className="justify-content-end">
-                <Link to="" onClick={() => history.back()}>
-                  <Button className="back-btn1" type="button" variant="primary" size="sm">
-                    Back
-                  </Button>
-                </Link>
+                <Button
+                  className="back-btn1"
+                  type="button"
+                  variant="primary"
+                  size="sm"
+                  onClick={() => history.back()}
+                >
+                  Back
+                </Button>
 
                 <Button
                   className="update-btn mr-3"
