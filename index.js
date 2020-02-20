@@ -67,10 +67,10 @@ app.use((err, req, res, next) => {
 });
 
 // Returns the Homepage
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
   const responseText = '<h2>Welcome to myFlix. Enjoy<h2>';
   res.send(responseText);
-});
+}); */
 
 // --MOVIES--
 
