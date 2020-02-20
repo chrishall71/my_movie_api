@@ -130,7 +130,7 @@ export class ProfileView2 extends React.Component {
           <Form.Group controlId="newUser">
             <Form.Text>
               <div className="profile-div">
-                <Link to="/movies">
+                <Link to="/">
                   <Button className="home-button" type="button" variant="link" size="sm">
                     Back
                   </Button>

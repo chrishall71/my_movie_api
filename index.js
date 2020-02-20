@@ -28,10 +28,14 @@ mongoose.connect(
 );
 
 // Middleware functions
+app.use(bodyParser.json()); // JSON Parsing
 app.use(morgan('common')); // log all request with Morgan
 app.use(express.static('public')); // retrieves files from public folder
 app.use('/client', express.static(path.join(__dirname, 'client', 'dist')));
-app.use(bodyParser.json()); // JSON Parsing
+
+app.get('/client/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 // CORS sites granted acces
 app.use(cors()); // use all origins
