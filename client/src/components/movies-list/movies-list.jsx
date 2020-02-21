@@ -25,7 +25,6 @@ function MovieList(props) {
       {filteredMovies.map((m) => (
         <MovieCard key={m._id} movie={m} />
       ))}
-      ;
     </div>
   );
 }

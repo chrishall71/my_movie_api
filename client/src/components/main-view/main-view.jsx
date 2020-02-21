@@ -1,6 +1,7 @@
 //  src/components/main-view/main-view.jsx
 import React from 'react';
 import axios from 'axios';
+
 import { connect } from 'react-redux';
 
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
@@ -27,6 +28,7 @@ class MainView extends React.Component {
     super();
 
     this.state = {
+      movies: [],
       user: null,
       register: false,
     };
@@ -134,7 +136,7 @@ class MainView extends React.Component {
               exact
               path="/"
               render={() => {
-                if (!user) return <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />;
+                if (!user) return <LoginView onLoggedIn={(userLV) => this.onLoggedIn(userLV)} />;
                 return <MoviesList movies={movies} />;
               }}
             />

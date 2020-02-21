@@ -43227,7 +43227,7 @@ function VisibilityFilterInput(props) {
       return props.setFilter(e.target.value);
     },
     value: props.visibiltyFilter,
-    placeholder: "filter"
+    placeholder: "Filter"
   });
 }
 
@@ -43617,7 +43617,7 @@ function MovieList(props) {
       key: m._id,
       movie: m
     });
-  }), ";");
+  }));
 }
 
 var _default = (0, _reactRedux.connect)(mapStateToProps)(MovieList);
@@ -55403,6 +55403,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(MainView).call(this));
     _this.state = {
+      movies: [],
       user: null,
       register: false
     };
@@ -55531,8 +55532,8 @@ function (_React$Component) {
         path: "/",
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
-            onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
+            onLoggedIn: function onLoggedIn(userLV) {
+              return _this3.onLoggedIn(userLV);
             }
           });
           return _react.default.createElement(_moviesList.default, {
@@ -55764,7 +55765,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54267" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55369" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
